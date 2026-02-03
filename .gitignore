@@ -2,3 +2,4 @@
 .env
 # IDE
 .vscode/
+docs/caching-at-scale-with-redis-updated-2021-12-04.pdf
