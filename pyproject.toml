@@ -17,7 +17,8 @@ dependencies = [
     "langchain-text-splitters (>=1.1.0,<2.0.0)",
     "langchain-chroma (>=1.1.0,<2.0.0)",
     "sentence-transformers (>=5.2.2,<6.0.0)",
-    "pypdf (>=6.6.2,<7.0.0)"
+    "pypdf (>=6.6.2,<7.0.0)",
+    "fastapi (>=0.128.0,<0.129.0)"
 ]
 
 

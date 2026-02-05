@@ -73,7 +73,7 @@ if __name__ == "__main__":
     )
     chain = rag_system.create_chain()
     result = chain.invoke(
-        "List the different kinds of the cache patterns,like cache-aside. For each cache pattern, output its name and an explanation of this pattern within 100 words."
+        "List the different kinds of the cache strategies,like cache-aside pattern. For each cache strategy, output its name and an explanation of this strategy within 100 words."
     )
 
     print("Answer:", result)

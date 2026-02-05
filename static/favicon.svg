@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Robot Head -->
+  <rect x="25" y="30" width="50" height="45" rx="8" fill="#667eea" stroke="#5568d3" stroke-width="2"/>
+  
+  <!-- Antenna -->
+  <line x1="50" y1="20" x2="50" y2="30" stroke="#667eea" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="50" cy="18" r="4" fill="#764ba2"/>
+  
+  <!-- Eyes -->
+  <circle cx="38" cy="45" r="6" fill="#fff"/>
+  <circle cx="62" cy="45" r="6" fill="#fff"/>
+  <circle cx="38" cy="45" r="3" fill="#333"/>
+  <circle cx="62" cy="45" r="3" fill="#333"/>
+  
+  <!-- Mouth -->
+  <path d="M 35 60 Q 50 68 65 60" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Body -->
+  <rect x="30" y="75" width="40" height="20" rx="5" fill="#764ba2" stroke="#5568d3" stroke-width="2"/>
+  
+  <!-- Arms -->
+  <rect x="15" y="78" width="15" height="8" rx="4" fill="#667eea"/>
+  <rect x="70" y="78" width="15" height="8" rx="4" fill="#667eea"/>
+  
+  <!-- Shine effect on head -->
+  <ellipse cx="40" cy="38" rx="8" ry="12" fill="#ffffff" opacity="0.2"/>
+</svg>
