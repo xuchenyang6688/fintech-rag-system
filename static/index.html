@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -127,9 +128,61 @@
             animation: spin 1s linear infinite;
         }
 
+        .steps-container {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff3cd;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+
+        .steps-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .stream-mode {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .stream-mode:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .stream-mode-name {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .step {
+            padding: 6px 10px;
+            margin: 4px 0;
+            background: white;
+            border-left: 3px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .step-number {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 8px;
+        }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .example-queries {
@@ -164,24 +217,22 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>🤖 Langchain Agent Demo</h1>
         <p class="subtitle">Powered by Zhipu AI & FastAPI</p>
-        
+
         <div class="chat-container" id="chatContainer">
             <div class="message agent-message">
-                Hello! I'm an AI agent powered by Zhipu AI. I can help you get the current date and time. Try asking me "What's the date today?"
+                Hello! I'm an AI agent powered by Zhipu AI. I can help you get the current date and time. Try asking me
+                "What's the date today?"
             </div>
         </div>
-        
+
         <div class="input-container">
-            <input 
-                type="text" 
-                id="queryInput" 
-                placeholder="Type your message here..." 
-                onkeypress="handleKeyPress(event)"
-            >
+            <input type="text" id="queryInput" placeholder="Type your message here..."
+                onkeypress="handleKeyPress(event)">
             <button id="sendButton" onclick="sendQuery()">Send</button>
         </div>
 
@@ -189,7 +240,8 @@
             <h3>Try these examples:</h3>
             <span class="example-query" onclick="setQuery('What\'s the date today?')">What's the date today?</span>
             <span class="example-query" onclick="setQuery('What time is it?')">What time is it?</span>
-            <span class="example-query" onclick="setQuery('Tell me the current date and time')">Tell me the current date and time</span>
+            <span class="example-query" onclick="setQuery('Tell me the current date and time')">Tell me the current date
+                and time</span>
         </div>
     </div>
 
@@ -212,6 +264,43 @@
             messageDiv.id = 'loadingIndicator';
             messageDiv.innerHTML = '<div class="loading"></div>';
             chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function displaySteps(streamModes) {
+            if (!streamModes || streamModes.length === 0) return;
+
+            const stepsContainer = document.createElement('div');
+            stepsContainer.className = 'message steps-container';
+
+            const stepsTitle = document.createElement('div');
+            stepsTitle.className = 'steps-title';
+            stepsTitle.textContent = '📋 Processing Steps:';
+            stepsContainer.appendChild(stepsTitle);
+
+            streamModes.forEach((mode, modeIndex) => {
+                const modeDiv = document.createElement('div');
+                modeDiv.className = 'stream-mode';
+
+                const modeName = document.createElement('div');
+                modeName.className = 'stream-mode-name';
+                modeName.textContent = `Mode: ${mode.stream_mode}`;
+                modeDiv.appendChild(modeName);
+
+                if (mode.steps && mode.steps.length > 0) {
+                    mode.steps.forEach((step, index) => {
+                        const stepDiv = document.createElement('div');
+                        stepDiv.className = 'step';
+                        const stepLabel = step.step ? `<strong>${step.step}</strong><br>` : '';
+                        stepDiv.innerHTML = `<span class="step-number">${index + 1}.</span> ${stepLabel}${step.message}`;
+                        modeDiv.appendChild(stepDiv);
+                    });
+                }
+
+                stepsContainer.appendChild(modeDiv);
+            });
+
+            chatContainer.appendChild(stepsContainer);
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
@@ -238,7 +327,7 @@
             addLoadingIndicator();
 
             try {
-                const response = await fetch('/api/query', {
+                const response = await fetch('/api/query/stream', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -247,13 +336,16 @@
                 });
 
                 const data = await response.json();
-                
+
                 removeLoadingIndicator();
 
                 if (data.error) {
                     addMessage(`Error: ${data.error}`, false, true);
                 } else {
                     addMessage(data.response, false);
+                    if (data.streamModes && data.streamModes.length > 0) {
+                        displaySteps(data.streamModes);
+                    }
                 }
             } catch (error) {
                 removeLoadingIndicator();
@@ -283,4 +375,5 @@
         };
     </script>
 </body>
+
 </html>

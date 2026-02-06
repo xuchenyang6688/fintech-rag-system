@@ -13,7 +13,7 @@ This is a **FinTech RAG System** - a financial document retrieval-augmented gene
 poetry install
 
 # Run development server (auto-reload on file changes)
-poetry run uvicorn src.fintech_rag.api.app:app --reload
+poetry run uvicorn src.fintech-rag.api.app:app --reload
 
 # Run directly with Python
 cd src/fintech-rag && python -m uvicorn api.app:app --host 0.0.0.0 --port 8000
