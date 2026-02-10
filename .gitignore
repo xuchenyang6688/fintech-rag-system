@@ -4,6 +4,9 @@
 # IDE
 .vscode/
 
+# Claude
+.claude/
+
 # Python cache
 __pycache__/
 *.py[cod]
